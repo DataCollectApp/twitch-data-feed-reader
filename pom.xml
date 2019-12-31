@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>app.datacollect</groupId>
+  <artifactId>twitch-data-feed-reader</artifactId>
+  <version>0.1.0</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+    <java.version>13</java.version>
+
+    <maven.compiler.source>${java.version}</maven.compiler.source>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+
+    <twitch-data-feed-events.version>0.1.0</twitch-data-feed-events.version>
+    <time.version>0.1.0</time.version>
+
+    <rome.version>1.5.0</rome.version>
+    <json.version>20180813</json.version>
+    <commons-text.version>1.8</commons-text.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo1.maven.org/maven2</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>github-twitch-data-feed-events</id>
+      <name>GitHub Data Collector Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/DataCollectApp/twitch-data-feed-events</url>
+    </repository>
+    <repository>
+      <id>github-time</id>
+      <name>GitHub Data Collector Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/DataCollectApp/time</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+
+    <!-- Rome -->
+    <dependency>
+      <groupId>com.rometools</groupId>
+      <artifactId>rome</artifactId>
+      <version>${rome.version}</version>
+    </dependency>
+
+    <!-- Feed events -->
+    <dependency>
+      <groupId>app.datacollect</groupId>
+      <artifactId>twitch-data-feed-events</artifactId>
+      <version>${twitch-data-feed-events.version}</version>
+    </dependency>
+
+    <!-- Utility -->
+    <dependency>
+      <groupId>app.datacollect</groupId>
+      <artifactId>time</artifactId>
+      <version>${time.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>${json.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>${commons-text.version}</version>
+    </dependency>
+
+  </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub DataCollectApp Apache Maven Packages</name>
+      <url>https://maven.pkg.github.com/DataCollectApp/twitch-data-feed-reader</url>
+    </repository>
+  </distributionManagement>
+
+</project>

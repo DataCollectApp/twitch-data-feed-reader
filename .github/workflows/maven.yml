@@ -1,0 +1,25 @@
+name: Java CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up JDK 13
+      uses: actions/setup-java@v1
+      with:
+        java-version: 13
+    - name: Build with Maven
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+      run: |
+        mkdir ~/.m2
+        echo "<settings><servers><server><id>github</id><username>DataCollectApp</username><password>${GITHUB_TOKEN}</password></server><server><id>github-twitch-data-feed-events</id><username>DataCollectApp</username><password>${ACCESS_TOKEN}</password></server><server><id>github-time</id><username>DataCollectApp</username><password>${ACCESS_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
+        mvn package --file pom.xml
+    - name: Deploy to Github Package Registry
+      run: mvn deploy
