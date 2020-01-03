@@ -8,6 +8,8 @@ import app.datacollect.twitchdata.feed.events.chatmessage.v1.ChatMessageEventV1;
 import app.datacollect.twitchdata.feed.events.clearchat.v1.ClearChatEventV1;
 import app.datacollect.twitchdata.feed.events.clearmessage.v1.ClearMessageEventV1;
 import app.datacollect.twitchdata.feed.events.globalclearchat.v1.GlobalClearChatEventV1;
+import app.datacollect.twitchdata.feed.events.userjoin.v1.UserJoinEventV1;
+import app.datacollect.twitchdata.feed.events.userleave.v1.UserLeaveEventV1;
 import org.json.JSONObject;
 
 class EventMapper {
@@ -17,6 +19,18 @@ class EventMapper {
       if (eventType == EventType.CHAT_MESSAGE_SNAPSHOT) {
         if (version == Version.V1) {
           return new ChatMessageEventV1(new JSONObject(content));
+        }
+      }
+    } else if (objectType == ObjectType.USER_JOIN) {
+      if (eventType == EventType.USER_JOIN_SNAPSHOT) {
+        if (version == Version.V1) {
+          return new UserJoinEventV1(new JSONObject(content));
+        }
+      }
+    } else if (objectType == ObjectType.USER_LEAVE) {
+      if (eventType == EventType.USER_LEAVE_SNAPSHOT) {
+        if (version == Version.V1) {
+          new UserLeaveEventV1(new JSONObject(content));
         }
       }
     } else if (objectType == ObjectType.CLEAR_MESSAGE) {
