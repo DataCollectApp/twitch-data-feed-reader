@@ -18,7 +18,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
-        mkdir ~/.m2
         echo "<settings><servers><server><id>github</id><username>DataCollectApp</username><password>${GITHUB_TOKEN}</password></server><server><id>github-twitch-data-feed-events</id><username>DataCollectApp</username><password>${ACCESS_TOKEN}</password></server><server><id>github-time</id><username>DataCollectApp</username><password>${ACCESS_TOKEN}</password></server></servers></settings>" > ~/.m2/settings.xml
         mvn package --file pom.xml
     - name: Deploy to Github Package Registry
