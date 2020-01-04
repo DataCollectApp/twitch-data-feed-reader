@@ -2,6 +2,7 @@ package app.datacollect.twitchdata.feed.reader;
 
 import app.datacollect.twitchdata.feed.events.Event;
 import app.datacollect.twitchdata.feed.events.EventType;
+import app.datacollect.twitchdata.feed.events.Metadata;
 import app.datacollect.twitchdata.feed.events.ObjectType;
 import app.datacollect.twitchdata.feed.events.Version;
 import com.rometools.rome.feed.synd.SyndCategory;
@@ -9,6 +10,7 @@ import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -41,16 +43,19 @@ public class TwitchDataFeedReader {
         .map(
             syndEntry -> {
               final String eventId = syndEntry.getUri();
+              final String author = syndEntry.getAuthor();
               final List<SyndCategory> syndCategories = syndEntry.getCategories();
               final EventType eventType = extractEventType(eventId, syndCategories);
               final ObjectType objectType = extractObjectType(eventId, syndCategories);
               final Version version = extractVersion(eventId, syndCategories);
-              return EventMapper.mapToEvent(
-                  eventId,
-                  eventType,
-                  objectType,
-                  version,
-                  syndEntry.getContents().get(0).getValue());
+              return new Event(
+                  EventMapper.mapToEvent(
+                      eventId,
+                      eventType,
+                      objectType,
+                      version,
+                      syndEntry.getContents().get(0).getValue()),
+                  new Metadata(UUID.fromString(eventId), author));
             })
         .collect(Collectors.toList());
   }

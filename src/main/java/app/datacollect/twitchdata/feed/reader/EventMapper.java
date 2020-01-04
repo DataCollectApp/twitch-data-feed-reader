@@ -1,6 +1,6 @@
 package app.datacollect.twitchdata.feed.reader;
 
-import app.datacollect.twitchdata.feed.events.Event;
+import app.datacollect.twitchdata.feed.events.EventData;
 import app.datacollect.twitchdata.feed.events.EventType;
 import app.datacollect.twitchdata.feed.events.ObjectType;
 import app.datacollect.twitchdata.feed.events.Version;
@@ -13,7 +13,8 @@ import app.datacollect.twitchdata.feed.events.userleave.v1.UserLeaveEventV1;
 import org.json.JSONObject;
 
 class EventMapper {
-  static Event mapToEvent(
+
+  static EventData mapToEvent(
       String eventId, EventType eventType, ObjectType objectType, Version version, String content) {
     if (objectType == ObjectType.CHAT_MESSAGE) {
       if (eventType == EventType.CHAT_MESSAGE_SNAPSHOT) {
@@ -30,7 +31,7 @@ class EventMapper {
     } else if (objectType == ObjectType.USER_LEAVE) {
       if (eventType == EventType.USER_LEAVE_SNAPSHOT) {
         if (version == Version.V1) {
-          new UserLeaveEventV1(new JSONObject(content));
+          return new UserLeaveEventV1(new JSONObject(content));
         }
       }
     } else if (objectType == ObjectType.CLEAR_MESSAGE) {

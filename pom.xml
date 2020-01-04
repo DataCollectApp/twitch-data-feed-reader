@@ -6,7 +6,7 @@
 
   <groupId>app.datacollect</groupId>
   <artifactId>twitch-data-feed-reader</artifactId>
-  <version>0.1.2</version>
+  <version>0.2.0</version>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,7 +16,7 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
 
-    <twitch-data-feed-events.version>0.1.0</twitch-data-feed-events.version>
+    <twitch-data-feed-events.version>0.2.0</twitch-data-feed-events.version>
     <time.version>0.1.0</time.version>
 
     <rome.version>1.5.0</rome.version>
