@@ -11,12 +11,14 @@ import java.time.Duration;
 import java.util.Base64;
 
 class SyndFeedFetcher {
+  private final HttpClient httpClient;
   private final String feedUrl;
   private final String feedUsername;
   private final String feedPassword;
   private final int feedPageSize;
 
   SyndFeedFetcher(String feedUrl, String feedUsername, String feedPassword, int feedPageSize) {
+    this.httpClient = HttpClient.newHttpClient();
     this.feedUrl = feedUrl;
     this.feedUsername = feedUsername;
     this.feedPassword = feedPassword;
@@ -28,7 +30,6 @@ class SyndFeedFetcher {
   }
 
   SyndFeed performRequest(String marker) {
-    final HttpClient client = HttpClient.newHttpClient();
     final URI uri =
         URI.create(String.format("%s?marker=%s&limit=%s", feedUrl, marker, feedPageSize));
     final HttpRequest request =
@@ -39,7 +40,7 @@ class SyndFeedFetcher {
             .build();
     final HttpResponse<String> response;
     try {
-      response = client.send(request, BodyHandlers.ofString());
+      response = httpClient.send(request, BodyHandlers.ofString());
     } catch (IOException | InterruptedException ex) {
       throw new RuntimeException(ex);
     }
