@@ -1,24 +1,21 @@
 package app.datacollect.twitchdata.feed.reader;
 
 import com.rometools.rome.feed.synd.SyndFeed;
-import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.Base64;
 
 class SyndFeedFetcher {
-  private final HttpClient httpClient;
+  private final CountedHttpClient httpClient;
   private final String feedUrl;
   private final String feedUsername;
   private final String feedPassword;
   private final int feedPageSize;
 
   SyndFeedFetcher(String feedUrl, String feedUsername, String feedPassword, int feedPageSize) {
-    this.httpClient = HttpClient.newHttpClient();
+    this.httpClient = new CountedHttpClient();
     this.feedUrl = feedUrl;
     this.feedUsername = feedUsername;
     this.feedPassword = feedPassword;
@@ -38,12 +35,7 @@ class SyndFeedFetcher {
             .header("Authorization", basicAuth(feedUsername, feedPassword))
             .timeout(Duration.ofMillis(10000))
             .build();
-    final HttpResponse<String> response;
-    try {
-      response = httpClient.send(request, BodyHandlers.ofString());
-    } catch (IOException | InterruptedException ex) {
-      throw new RuntimeException(ex);
-    }
+    final HttpResponse<String> response = httpClient.send(request);
     if (response.statusCode() != 200) {
       throw new IllegalStateException(
           String.format(
